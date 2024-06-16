@@ -4,8 +4,31 @@
 
     <body>
         <%- include('./partials/nav.ejs')%>
-            <h1>Create page</h1>
+            <div class="w-[40%] mx-auto mt-10">
+                <form action="">
+                    <div class="my-3">
+                        <label for="" class="font-semibold">Title</label>
+                        <input placeholder="Blog title" type="text"
+                            class="border px-4 py-2 w-full rounded-sm my-2 outline-none" required>
+                    </div>
+                    <div class="my-3">
+                        <label for="" class="font-semibold">Snippet</label>
+                        <input placeholder="Blog Snippet" type="text"
+                            class="border px-4 py-2 w-full rounded-sm my-2 outline-none">
+                    </div>
+                    <div class="my-3">
+                        <label for="" class="font-semibold">Description</label>
+                        <textarea rows="5" resize="disable" placeholder="Description" type="text"
+                            class="border px-4 py-2 w-full rounded-sm my-2 outline-none"></textarea>
+                    </div>
+                    <div>
+                        <button
+                            class="bg-red-500 text-white w-full py-3 rounded font-meduim text-lg hover:bg-red-600 transition duration-200 ease-in">Submit</button>
+                    </div>
+                </form>
+            </div>
 
             <%- include('./partials/footer.ejs')%>
     </body>
-    </html>
+
+</html>

@@ -5,17 +5,17 @@
     <body>
         <%- include('./partials/nav.ejs')%>
             <div class="w-[70%] mx-auto">
-                <h2>All blogs</h2>
+                <h2 class="my-6">All blogs</h2>
                 <% if(blogs.length> 0){ %>
                     <% blogs.forEach(blog=> { %>
-                        <div>
-                            <h1>
+                        <a href="/blog/details" class="my-4 border-b-[1px] p-4">
+                            <h1 class="text-xl font-bold">
                                 <%= blog.title %>
                             </h1>
                             <p>
                                 <%= blog.snippet %>
                             </p>
-                        </div>
+                        </a>
                         <% }) %>
                             <% } else {%>
                                 <p>There is not blogs to display</p>

@@ -1,10 +1,20 @@
 const http = require('http')
 const fs = require('fs')
+const _ = require('lodash')
 
 const hostname = 'localhost';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
+    // const num = _.random(0, 20)
+    // console.log(num)
+
+    const great = _.once(() => {
+        console.log('hello')
+    })
+    great()
+    great()
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'html');
 
@@ -32,6 +42,6 @@ const server = http.createServer((req, res) => {
     })
 });
 
-server.listen(port, hostname, () => {
+server.listen(3000, hostname, () => {
     console.log('Listing request on port 3000')
 })

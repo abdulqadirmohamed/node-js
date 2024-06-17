@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs')%>
+
+    <body>
+        <%- include('./partials/nav.ejs')%>
+            <div class="w-[50%] mx-auto">
+                <div class="my-6">
+                    <div class="flex justify-end">
+                        <a id="deleteBtn" data-doc="<%= blog._id %>" class="delete text-red-600 hover:underline cursor-pointer">Delete</a>
+                    </div>
+                    <h1 class="text-xl font-bold my-2">
+                        <%= blog.title %>
+                    </h1>
+                    <p class="">
+                        <%= blog.description %>
+                    </p>
+
+                </div>
+            </div>
+
+            <%- include('./partials/footer.ejs')%>
+            <script>
+                const trashcan = document.getElementById('deleteBtn');
+                trashcan.addEventListener('click', (e)=>{
+                    const endPoint = `/blogs/${trashcan.dataset.doc}`;
+                    fetch(endPoint, {
+                        method: 'DELETE'
+                    })
+                    .then((response)=>response.json())
+                    .then((data)=>window.location.href = data.redirect)
+                    .catch((error)=>console.error(error))
+                })
+            </script>
+    </body>
+
+</html>

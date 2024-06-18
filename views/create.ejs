@@ -5,7 +5,7 @@
     <body>
         <%- include('./partials/nav.ejs')%>
             <div class="w-[40%] mx-auto mt-10">
-                <form action="/blogs" method="POST">
+                <form action="/blogs" method="POST" enctype="multipart/form-data">
                     <div class="my-3">
                         <label for="" class="font-semibold">Title</label>
                         <input placeholder="Blog title" type="text" name="title"
@@ -13,13 +13,17 @@
                     </div>
                     <div class="my-3">
                         <label for="" class="font-semibold">Snippet</label>
-                        <input placeholder="Blog Snippet" type="text" name="snippets"
+                        <input placeholder="Blog Snippet" type="text" name="snippet"
                             class="border px-4 py-2 w-full rounded-sm my-2 outline-none">
                     </div>
                     <div class="my-3">
                         <label for="" class="font-semibold">Description</label>
                         <textarea id="div_editor1" rows="5" resize="disable" placeholder="Description" type="text"
                             name="description" class="border px-4 py-2 w-full rounded-sm my-2 outline-none"></textarea>
+                    </div>
+                    <div class="my-3">
+                        <label for="" class="font-semibold">Feature image</label> <br>
+                        <input type="file" name="image" accept="image/*">
                     </div>
                     <div>
                         <button

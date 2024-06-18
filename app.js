@@ -5,6 +5,10 @@ const { result } = require('lodash')
 const Blog = require('./models/blog')
 const moment = require('moment')
 
+const multer = require('multer');
+const path = require('path');
+
+
 const app = express()
 const port = 3000
 
@@ -14,17 +18,44 @@ mongoose.connect(dbUrl)
     .then((result) => app.listen(port))
     .catch((err) => console.log(err))
 
-// Register view engine
+// Set up EJS
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // middleware and static files
 app.use(express.static('public')) //public - folder name
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 
+// Multer setup
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
+
 // Mongoose and Mongo sandbox routes
-app.post('/blogs', (req, res) => {
-    const blog = new Blog(req.body);
+app.post('/blogs', upload.single("image"), (req, res) => {
+    // const blog = new Blog(req.body);
+    const { title, snippet, description } = req.body;
+    const { filename, mimetype } = req.file;
+    const imageBase64 = req.file.path;
+
+    const blog = new Blog({
+        title, snippet, description,
+        image: {
+            filename,
+            contentType: mimetype,
+            imageBase64
+        }
+    })
     blog.save()
         .then(result => {
             res.redirect('/blogs');
@@ -48,18 +79,18 @@ app.get('/all-blogs', (req, res) => {
 app.get('/blogs/:id', (req, res) => {
     const id = req.params.id;
     Blog.findById(id)
-    .then((result)=>{
-        res.render('details', {blog: result, title: 'blog details'})
-    })
+        .then((result) => {
+            res.render('details', { blog: result, title: 'blog details' })
+        })
 })
 
 // Delete 
-app.delete('/blogs/:id', (req, res)=>{
+app.delete('/blogs/:id', (req, res) => {
     const id = req.params.id;
     Blog.findByIdAndDelete(id)
-    .then((result)=>{
-        res.json({redirect: '/blogs'})
-    }).catch((err) => { console.log(err) })
+        .then((result) => {
+            res.json({ redirect: '/blogs' })
+        }).catch((err) => { console.log(err) })
 })
 // Get app
 app.get('/', (req, res) => {

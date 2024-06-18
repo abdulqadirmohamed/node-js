@@ -6,14 +6,19 @@ const blogSchema = new Schema({
         type: String,
         required: true
     },
-    snippets: {
+    snippet: {
         type: String,
         required: true
     },
     description: {
         type: String
-    }
-}, {timestamps: true});
+    },
+    image: {
+        filename: String,
+        contentType: String,
+        imageBase64: String
+      },
+}, { timestamps: true });
 
 const Blog = mongoose.model('Blog', blogSchema);
 module.exports = Blog;

@@ -7,11 +7,17 @@
             <div class="w-[50%] mx-auto">
                 <div class="my-6">
                     <div class="flex justify-end">
-                        <a id="deleteBtn" data-doc="<%= blog._id %>" class="delete text-red-600 hover:underline cursor-pointer">Delete</a>
+                        <a id="deleteBtn" data-doc="<%= blog._id %>"
+                            class="delete text-red-600 hover:underline cursor-pointer">Delete</a>
                     </div>
                     <h1 class="text-xl font-bold my-2">
                         <%= blog.title %>
                     </h1>
+                    <div>
+                        <% if(blog.image.filename.length > 0 ){%>
+                            <img src="/uploads/<%= blog.image.filename %>" alt="<%= blog.title %>" class="w-full my-3 rounded-md" />
+                        <%}else {%> <p>no image</p> <%} %>
+                    </div>
                     <p class="">
                         <%= blog.description %>
                     </p>
@@ -20,18 +26,18 @@
             </div>
 
             <%- include('./partials/footer.ejs')%>
-            <script>
-                const trashcan = document.getElementById('deleteBtn');
-                trashcan.addEventListener('click', (e)=>{
-                    const endPoint = `/blogs/${trashcan.dataset.doc}`;
-                    fetch(endPoint, {
-                        method: 'DELETE'
+                <script>
+                    const trashcan = document.getElementById('deleteBtn');
+                    trashcan.addEventListener('click', (e) => {
+                        const endPoint = `/blogs/${trashcan.dataset.doc}`;
+                        fetch(endPoint, {
+                            method: 'DELETE'
+                        })
+                            .then((response) => response.json())
+                            .then((data) => window.location.href = data.redirect)
+                            .catch((error) => console.error(error))
                     })
-                    .then((response)=>response.json())
-                    .then((data)=>window.location.href = data.redirect)
-                    .catch((error)=>console.error(error))
-                })
-            </script>
+                </script>
     </body>
 
 </html>
